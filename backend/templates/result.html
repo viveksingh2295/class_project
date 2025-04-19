@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='images/background.jpg') }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 90%;
+            margin: 30px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            width: 100px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #003366;
+        }
+        .advice {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e6f7ff;
+            border-left: 5px solid #007BFF;
+        }
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .back-btn a {
+            text-decoration: none;
+            background: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+        <h1>Assessment Result</h1>
+
+        <canvas id="resultChart" width="600" height="300"></canvas>
+
+        <script>
+            const resultData = {{ result_data | tojson }};
+            const labels = ['Anxiety', 'Depression', 'Sleep', 'Stress'];
+
+            const chartData = {
+                labels: labels,
+                datasets: [{
+                    label: 'Mental Health Scores',
+                    data: [resultData.anxiety, resultData.depression, resultData.sleep, resultData.stress],
+                    backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56']
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            };
+
+            new Chart(document.getElementById('resultChart'), config);
+        </script>
+
+        <div class="advice">
+            <h2>Personalized Advice</h2>
+            <p>{{ advice }}</p>
+        </div>
+
+        <div class="back-btn">
+            <a href="/dashboard">🔙 Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>
+

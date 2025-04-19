@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='images/background.jpg') }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 90%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            margin: 30px auto;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            width: 100px;
+        }
+        h1 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        td {
+            background-color: #f9f9f9;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+        <h1>Dashboard</h1>
+
+        {% if entries %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th><th>Age</th><th>Gender</th>
+                    <th>Anxiety</th><th>Depression</th><th>Sleep</th><th>Stress</th>
+                    <th>Medication</th><th>Med Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in entries %}
+                <tr>
+                    {% for item in row %}
+                    <td>{{ item }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <canvas id="mentalChart" width="600" height="300"></canvas>
+        <script>
+            const entries = {{ entries | tojson }};
+            const latest = entries[entries.length - 1];
+
+            const data = {
+                labels: ['Anxiety', 'Depression', 'Sleep', 'Stress'],
+                datasets: [{
+                    label: 'Latest Mental Health Scores',
+                    data: [parseInt(latest[3]), parseInt(latest[4]), parseInt(latest[5]), parseInt(latest[6])],
+                    backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56']
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            };
+
+            new Chart(document.getElementById('mentalChart'), config);
+        </script>
+        {% else %}
+        <p style="text-align:center;">No entries yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
