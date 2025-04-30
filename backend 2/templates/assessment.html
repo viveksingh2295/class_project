@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mental Health Assessment</title>
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='images/background.jpg') }}');
+            background-size: cover;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+        }
+        .top-banner {
+            position: relative;
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            border-bottom: 3px solid #007BFF;
+            text-align: center;
+        }
+        .logo {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            width: 70px;
+            height: 70px;
+        }
+        .banner-center {
+            display: inline-block;
+        }
+        .banner-center h2 {
+            margin: 0;
+            color: #003366;
+            font-size: 22px;
+        }
+        .banner-center p {
+            margin: 4px 0 0;
+            font-size: 13px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.97);
+            padding: 30px;
+            margin: 50px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #003366;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 15px;
+            display: block;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            margin-top: 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        #medInput {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="top-banner">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo" alt="Galgotias Logo">
+        <div class="banner-center">
+            <h1>DOCTORS PANNEL</h1>
+            <h2>GALGOTIAS MEDICAL COLLEGE AND HOSPITAL</h2>
+            <p><strong>Doctors Available:</strong> Dr. Ajeet Singh, Dr. Vivek Singh, Dr. Sristi Saxena</p>
+        </div>
+    </div>
+
+    <!-- Assessment Form -->
+    <div class="container">
+        <h1>Mental Health Assessment</h1>
+        <form action="/submit_assessment" method="post">
+            <input type="hidden" name="name" value="{{ name }}">
+            <input type="hidden" name="mobile" value="{{ mobile }}">
+            <input type="hidden" name="age" value="{{ age }}">
+            <input type="hidden" name="gender" value="{{ gender }}">
+            <input type="hidden" name="problem" value="{{ problem }}">
+            <input type="hidden" name="doctor" value="{{ doctor }}">
+
+            <label>Anxiety Level (0-10):</label>
+            <input type="number" name="anxiety" min="0" max="10" required>
+
+            <label>Depression Level (0-10):</label>
+            <input type="number" name="depression" min="0" max="10" required>
+
+            <label>Sleep Quality (0-10):</label>
+            <input type="number" name="sleep" min="0" max="10" required>
+
+            <label>Stress Level (0-10):</label>
+            <input type="number" name="stress" min="0" max="10" required>
+
+            <label>Did you take medication?</label>
+            <select name="medication" id="medication" onchange="toggleMedInput()">
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+
+            <div id="medInput">
+                <label>Medication Name:</label>
+                <input type="text" name="med_name">
+            </div>
+
+            <input type="submit" value="Submit Assessment">
+        </form>
+    </div>
+
+    <script>
+        function toggleMedInput() {
+            const med = document.getElementById('medication').value;
+            document.getElementById('medInput').style.display = med === 'yes' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
