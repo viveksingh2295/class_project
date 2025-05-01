@@ -1,0 +1,171 @@
+
+
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+/* Top banner with logo and center-aligned heading */
+.top-banner {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    border-bottom: 3px solid #007BFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Logo on the left */
+.logo {
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    left: 20px;
+}
+
+/* Center text block */
+.banner-center {
+    text-align: center;
+}
+
+.banner-center h2 {
+    margin: 0;
+    color: #003366;
+    font-size: 22px;
+}
+
+.banner-center p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #333;
+}
+
+/* Main form or content container */
+.container {
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.97);
+    padding: 30px;
+    margin: 50px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+/* Heading and labels */
+h1, h2 {
+    text-align: center;
+    color: #003366;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 15px;
+    display: block;
+}
+
+/* Inputs and dropdowns */
+input[type="text"],
+input[type="number"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Submit or action buttons */
+input[type="submit"],
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Patient info boxes (e.g. top corner) */
+.patient-info {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background: #ffffffcc;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    font-size: 14px;
+}
+
+/* Table styling (dashboard) */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #007BFF;
+    color: white;
+}
+
+td {
+    background-color: #f9f9f9;
+}
+
+/* Chart canvas */
+canvas {
+    display: block;
+    margin: 30px auto;
+}
+
+/* Centered buttons (e.g., dashboard) */
+.form-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+h1 {
+    text-align: center;
+    color: #003366;
+    text-decoration: underline;
+}
+
+.print-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.print-btn button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.print-btn button:hover {
+    background-color: #0056b3;
+}

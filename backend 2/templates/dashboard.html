@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='images/background.jpg') }}');
+            background-size: cover;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+        }
+        .top-banner {
+            position: relative;
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            border-bottom: 3px solid #007BFF;
+            text-align: center;
+        }
+        .logo {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            width: 70px;
+            height: 70px;
+        }
+        .banner-center {
+            display: inline-block;
+        }
+        .banner-center h2 {
+            margin: 0;
+            font-size: 22px;
+            color: #003366;
+        }
+        .banner-center p {
+            margin: 4px 0 0;
+            font-size: 13px;
+            color: #333;
+        }
+        .container {
+            max-width: 90%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            margin: 30px auto;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        .patient-info {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: #ffffffcc;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            font-size: 14px;
+        }
+        h1 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 30px;
+        }
+        .banner-center h2 {
+            text-decoration: underline;
+            color: #003366;
+            margin: 0;
+        }    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        td {
+            background-color: #f9f9f9;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+        .form-btn {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .form-btn a button {
+            padding: 12px 24px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-btn a button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-banner">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo" alt="Logo">
+        <div class="banner-center">
+            <h1>DOCTORS PANNEL</h1>
+            <h2>GALGOTIAS MEDICAL COLLEGE AND HOSPITAL</h2>
+            <p><strong>Doctors Available:</strong> Dr. Ajeet Singh, Dr. Vivek Singh, Dr. Sristi Saxena</p>
+        </div>
+    </div>
+
+    <div class="container">
+        {% if name and mobile and problem and doctor %}
+        <div class="patient-info">
+            <strong>Patient:</strong> {{ name }}<br>
+            <strong>Mobile:</strong> {{ mobile }}<br>
+            <strong>Problem:</strong> {{ problem }}<br>
+            <strong>Doctor:</strong> {{ doctor }}
+        </div>
+        {% endif %}
+
+        <h1>Dashboard</h1>
+
+        {% if entries %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th><th>Age</th><th>Gender</th>
+                    <th>Anxiety</th><th>Depression</th><th>Sleep</th><th>Stress</th>
+                    <th>Medication</th><th>Med Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in entries %}
+                <tr>
+                    {% for item in row[:9] %}
+                    <td>{{ item }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <canvas id="mentalChart" width="600" height="300"></canvas>
+        <script>
+            const entries = {{ entries | tojson }};
+            const latest = entries[entries.length - 1];
+
+            const data = {
+                labels: ['Anxiety', 'Depression', 'Sleep', 'Stress'],
+                datasets: [{
+                    label: 'Latest Mental Health Scores',
+                    data: [parseInt(latest[3]), parseInt(latest[4]), parseInt(latest[5]), parseInt(latest[6])],
+                    backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56']
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            };
+
+            new Chart(document.getElementById('mentalChart'), config);
+        </script>
+        {% else %}
+        <p style="text-align:center;">No entries yet.</p>
+        {% endif %}
+
+        <div class="form-btn">
+            <a href="{{ url_for('home') }}">
+                <button>Go to Form Fill-Up</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
